@@ -1,71 +1,52 @@
 #!/usr/bin/env node
 
-const colorFunctions = require("./colors/colors");
-const { styleFunctions, additionalStyles } = require("./colors/styles");
-const specialEffects = require("./colors/effects");
-const pastelColors = require("./colors/pastelColors");
-const {
-  additionalColors,
-  additionalBackgroundColors,
-} = require("./colors/additionalColors");
-const gradients = require("./colors/gradient");
-const semanticColors = require("./colors/semanticColors");
-const {
-  neonColors,
-  metallicColors,
-  colorCombinations,
-} = require("./colors/otherColors");
-const emojiDecorations = require("./colors/emojiDecor");
-const newEffects = require("./colors/newEffects");
+const colorModules = [
+  "./colors/colors",
+  "./colors/styles",
+  "./colors/effects",
+  "./colors/pastelColors",
+  "./colors/additionalColors",
+  "./colors/gradient",
+  "./colors/semanticColors",
+  "./colors/otherColors",
+  "./colors/emojiDecor",
+  "./colors/newEffects",
+];
 
-const justColors = {
-  // Regular colors and background colors
-  ...colorFunctions,
+try {
+  const justColors = colorModules.reduce((acc, module) => {
+    const imported = require(module);
+    return {
+      ...acc,
+      ...(Array.isArray(imported) ? Object.assign({}, ...imported) : imported),
+    };
+  }, {});
 
-  // Styles
-  ...styleFunctions,
-  ...additionalStyles,
-
-  // Special effects
-  ...specialEffects,
-
-  // Pastel colors
-  ...pastelColors,
-
-  // Additional colors and background colors
-  ...additionalColors,
-  ...additionalBackgroundColors,
-
-  // Gradient effects
-  ...gradients,
-
-  // Semantic colors
-  ...semanticColors,
-
-  // Neon colors
-  ...neonColors,
-
-  // Metallic colors
-  ...metallicColors,
-
-  // Color combinations
-  ...colorCombinations,
-
-  // Emoji decorations
-  ...emojiDecorations,
-
-  // New effects
-  ...newEffects,
-
-  // Text decorations
-  frame: (text) => {
+  justColors.frame = (text) => {
+    if (typeof text !== "string") {
+      throw new TypeError("Input must be a string");
+    }
     const lines = text.split("\n");
     const width = Math.max(...lines.map((line) => line.length));
-    const top = "╔" + "═".repeat(width + 2) + "╗";
-    const bottom = "╚" + "═".repeat(width + 2) + "╝";
-    const framedLines = lines.map((line) => "║ " + line.padEnd(width) + " ║");
+    const top = `╔${"═".repeat(width + 2)}╗`;
+    const bottom = `╚${"═".repeat(width + 2)}╝`;
+    const framedLines = lines.map((line) => `║ ${line.padEnd(width)} ║`);
     return [top, ...framedLines, bottom].join("\n");
-  },
-};
+  };
 
-module.exports = justColors;
+  const justColorsProxy = new Proxy(justColors, {
+    get(target, prop) {
+      if (prop in target) {
+        return target[prop];
+      }
+      console.log("Available colors and effects:");
+      Object.keys(target).forEach((key) => console.log(`- ${key}`));
+      return undefined;
+    },
+  });
+
+  module.exports = justColorsProxy;
+} catch (error) {
+  console.error("Error initializing justColors:", error.message);
+  module.exports = {};
+}
