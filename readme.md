@@ -33,3 +33,32 @@ console.log(justColors.red("This text is red!"));
 console.log(justColors.bgGreen("This text has a green background!"));
 console.log(justColors.success("Operation was successful!"));
 ```
+
+### Wondering how to see every color and effects if it doesn't pop up?
+
+```js
+const justColors = require("@mattythedev01/justcolors");
+
+// To show every regular color
+justColors.showAllColors();
+// To show additional colors
+justColors.showAdditionalColors();
+// To show effects
+justColors.showEffects();
+// To show emojiDecor
+justColors.showEmojiDecor();
+// To show gradients
+justColors.showGradients();
+// To show new effects
+justColors.showNewEffects();
+// To show pastel colors
+justColors.showPastelColors();
+// To show semantic colors
+justColors.showSemanticColors();
+// To show other colors
+justColors.showOtherColors();
+// to show styles
+justColors.showStyles();
+```
+
+Write any one of these lines down in your file, and run the file. Once ran, it'll show you whatever in your terminal.

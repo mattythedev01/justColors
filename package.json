@@ -1,6 +1,6 @@
 {
   "name": "@mattythedev01/justcolors",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A lightweight color package to log stuff beautifully",
   "main": "index.js",
   "scripts": {
