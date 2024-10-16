@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+const fs = require("fs");
+const path = require("path");
+
 const colorModules = [
   "./colors/colors",
   "./colors/styles",
@@ -15,12 +18,27 @@ const colorModules = [
 
 try {
   const justColors = colorModules.reduce((acc, module) => {
-    const imported = require(module);
-    return {
-      ...acc,
-      ...(Array.isArray(imported) ? Object.assign({}, ...imported) : imported),
-    };
+    try {
+      const imported = require(module);
+      return {
+        ...acc,
+        ...(Array.isArray(imported)
+          ? Object.assign({}, ...imported)
+          : imported),
+      };
+    } catch (error) {
+      console.warn(`Failed to load module ${module}: ${error.message}`);
+      return acc;
+    }
   }, {});
+
+  const {
+    neonColors,
+    metallicColors,
+    colorCombinations,
+  } = require("./colors/otherColors");
+
+  const stylesFunctions = require("./colors/styles");
 
   justColors.frame = (text) => {
     if (typeof text !== "string") {
@@ -34,133 +52,73 @@ try {
     return [top, ...framedLines, bottom].join("\n");
   };
 
-  justColors.showAllColors = () => {
-    console.log("All available colors from colors.js:");
-    const colorsModule = require("./colors/colors");
-    Object.entries(colorsModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
+  const showColors = (modulePath, title) => {
+    console.log(title);
+    try {
+      const module = require(modulePath);
+      Object.entries(module).forEach(([key, value]) => {
+        if (typeof value === "function") {
+          console.log(`${key}: ${value(key)}`);
+        } else if (typeof value === "object" && value !== null) {
+          Object.entries(value).forEach(([subKey, subValue]) => {
+            if (typeof subValue === "function") {
+              console.log(`${key}.${subKey}: ${subValue(subKey)}`);
+            } else {
+              console.log(`${key}.${subKey}: ${subValue}`);
+            }
+          });
+        } else {
+          console.log(`${key}: ${value}`);
+        }
+      });
+    } catch (error) {
+      console.error(
+        `Failed to show colors from ${modulePath}: ${error.message}`
+      );
+    }
   };
 
-  justColors.additionalColors = () => {
-    console.log("Additional colors from additionalColors.js:");
-    const additionalColorsModule = require("./colors/additionalColors");
-    Object.entries(additionalColorsModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else if (typeof value === "object" && value !== null) {
-        Object.entries(value).forEach(([subKey, subValue]) => {
-          if (typeof subValue === "function") {
-            console.log(`${key}.${subKey}: ${subValue(subKey)}`);
-          } else {
-            console.log(`${key}.${subKey}: ${subValue}`);
-          }
-        });
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
-
-  justColors.showEffects = () => {
-    console.log("All available effects from effects.js:");
-    const effectsModule = require("./colors/effects");
-    Object.entries(effectsModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
-
-  justColors.showGradients = () => {
-    console.log("All available gradients from gradient.js:");
-    const gradientModule = require("./colors/gradient");
-    Object.entries(gradientModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
-
-  justColors.showNewEffects = () => {
-    console.log("All available new effects from newEffects.js:");
-    const newEffectsModule = require("./colors/newEffects");
-    Object.entries(newEffectsModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
-
-  justColors.showOtherColors = () => {
-    console.log("All available other colors from otherColors.js:");
-    const otherColorsModule = require("./colors/otherColors");
-    Object.entries(otherColorsModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
-
-  justColors.showPastelColors = () => {
-    console.log("All available pastel colors from pastelColors.js:");
-    const pastelColorsModule = require("./colors/pastelColors");
-    Object.entries(pastelColorsModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
-
-  justColors.showSemanticColors = () => {
-    console.log("All available semantic colors from semanticColors.js:");
-    const semanticColorsModule = require("./colors/semanticColors");
-    Object.entries(semanticColorsModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
-
-  justColors.showStyles = () => {
-    console.log("All available styles from styles.js:");
-    const stylesModule = require("./colors/styles");
-    Object.entries(stylesModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
-
-  justColors.showEmojiDecor = () => {
-    console.log("All available emoji decorations from emojiDecor.js:");
-    const emojiDecorModule = require("./colors/emojiDecor");
-    Object.entries(emojiDecorModule).forEach(([key, value]) => {
-      if (typeof value === "function") {
-        console.log(`${key}: ${value(key)}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-  };
+  justColors.showAllColors = () =>
+    showColors("./colors/colors", "All available colors from colors.js:");
+  justColors.additionalColors = () =>
+    showColors(
+      "./colors/additionalColors",
+      "Additional colors from additionalColors.js:"
+    );
+  justColors.showEffects = () =>
+    showColors("./colors/effects", "All available effects from effects.js:");
+  justColors.showGradients = () =>
+    showColors(
+      "./colors/gradient",
+      "All available gradients from gradient.js:"
+    );
+  justColors.showNewEffects = () =>
+    showColors(
+      "./colors/newEffects",
+      "All available new effects from newEffects.js:"
+    );
+  justColors.showOtherColors = () =>
+    showColors(
+      "./colors/otherColors",
+      "All available other colors from otherColors.js:"
+    );
+  justColors.showPastelColors = () =>
+    showColors(
+      "./colors/pastelColors",
+      "All available pastel colors from pastelColors.js:"
+    );
+  justColors.showSemanticColors = () =>
+    showColors(
+      "./colors/semanticColors",
+      "All available semantic colors from semanticColors.js:"
+    );
+  justColors.showStyles = () =>
+    showColors("./colors/styles", "All available styles from styles.js:");
+  justColors.showEmojiDecor = () =>
+    showColors(
+      "./colors/emojiDecor",
+      "All available emoji decorations from emojiDecor.js:"
+    );
 
   const justColorsProxy = new Proxy(justColors, {
     get(target, prop) {
@@ -172,12 +130,32 @@ try {
     },
   });
 
-  module.exports = new Proxy(justColorsProxy, {
-    apply(target, thisArg, argumentsList) {
-      justColors.showAllColors();
-      return undefined;
+  module.exports = new Proxy(
+    {
+      ...justColorsProxy,
+      ...neonColors,
+      ...metallicColors,
+      ...colorCombinations,
+      ...stylesFunctions,
     },
-  });
+    {
+      get(target, prop) {
+        if (prop in target) {
+          const value = target[prop];
+          if (typeof value === "function") {
+            return (...args) => value(...args);
+          }
+          return value;
+        }
+        justColors.showAllColors();
+        return undefined;
+      },
+      apply(target, thisArg, argumentsList) {
+        justColors.showAllColors();
+        return undefined;
+      },
+    }
+  );
 } catch (error) {
   console.error("Error initializing justColors:", error.message);
   module.exports = {};

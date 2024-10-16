@@ -1,3 +1,5 @@
+const colors = require("colors");
+
 const neonColors = {
   // Neon colors
   neonGreen: (text) => `\x1b[38;2;57;255;20m${text}\x1b[0m`,
@@ -73,10 +75,27 @@ const metallicColors = {
 const colorCombinations = {
   // Color combinations
   christmasTheme: (text) => colors.red(colors.bgGreen(text)),
+  halloweenTheme: (text) => colors.orange(colors.bgBlack(text)),
+  easterTheme: (text) => colors.magenta(colors.bgYellow(text)),
+  valentinesTheme: (text) => colors.magenta(colors.bgRed(text)),
+  stPatricksTheme: (text) => colors.green(colors.bgWhite(text)),
+  independenceDayTheme: (text) => colors.blue(colors.bgRed(colors.white(text))),
+  autumnTheme: (text) => colors.yellow(colors.bgRed(text)),
+  winterTheme: (text) => colors.cyan(colors.bgWhite(text)),
+  springTheme: (text) => colors.green(colors.bgMagenta(text)),
+  summerTheme: (text) => colors.yellow(colors.bgCyan(text)),
+  oceanTheme: (text) => colors.blue(colors.bgCyan(text)),
+  forestTheme: (text) => colors.green(colors.bgBlack(text)),
+  desertTheme: (text) => colors.yellow(colors.bgRed(text)),
+  galaxyTheme: (text) => colors.magenta(colors.bgBlack(colors.white(text))),
+  rainbowTheme: (text) =>
+    colors.red(
+      colors.bgYellow(colors.blue(colors.green(colors.magenta(text))))
+    ),
 };
 
 module.exports = {
-  neonColors,
-  metallicColors,
-  colorCombinations,
+  ...neonColors,
+  ...metallicColors,
+  ...colorCombinations,
 };
