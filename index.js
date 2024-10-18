@@ -16,10 +16,19 @@ const colorModules = [
   "./colors/newEffects",
 ];
 
+// Cache for loaded modules
+const moduleCache = new Map();
+
 try {
   const justColors = colorModules.reduce((acc, module) => {
     try {
-      const imported = require(module);
+      let imported;
+      if (moduleCache.has(module)) {
+        imported = moduleCache.get(module);
+      } else {
+        imported = require(module);
+        moduleCache.set(module, imported);
+      }
       return {
         ...acc,
         ...(Array.isArray(imported)
@@ -32,13 +41,11 @@ try {
     }
   }, {});
 
-  const {
-    neonColors,
-    metallicColors,
-    colorCombinations,
-  } = require("./colors/otherColors");
+  const { neonColors, metallicColors, colorCombinations } =
+    moduleCache.get("./colors/otherColors") || require("./colors/otherColors");
 
-  const stylesFunctions = require("./colors/styles");
+  const stylesFunctions =
+    moduleCache.get("./colors/styles") || require("./colors/styles");
 
   justColors.frame = (text) => {
     if (typeof text !== "string") {
@@ -55,7 +62,10 @@ try {
   const showColors = (modulePath, title) => {
     console.log(title);
     try {
-      const module = require(modulePath);
+      const module = moduleCache.get(modulePath) || require(modulePath);
+      if (!moduleCache.has(modulePath)) {
+        moduleCache.set(modulePath, module);
+      }
       Object.entries(module).forEach(([key, value]) => {
         if (typeof value === "function") {
           console.log(`${key}: ${value(key)}`);
