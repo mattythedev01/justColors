@@ -52,6 +52,54 @@ const stylesFunctions = {
   notOverlined: (text) => `\x1b[55m${text}\x1b[0m`,
   notIdeogram: (text) => `\x1b[65m${text}\x1b[0m`,
   notDoubleUnderline: (text) => `\x1b[29m${text}\x1b[0m`,
+  // Additional new styles
+  shadow: (text) => `\x1b[30;1m${text}\x1b[0m`,
+  outline: (text) => `\x1b[31;1m${text}\x1b[0m`,
+  emboss: (text) => `\x1b[1;30;47m${text}\x1b[0m`,
+  engrave: (text) => `\x1b[1;37;40m${text}\x1b[0m`,
+  wavyUnderline: (text) => `\x1b[4:3m${text}\x1b[0m`,
+  dottedUnderline: (text) => `\x1b[4:4m${text}\x1b[0m`,
+  dashedUnderline: (text) => `\x1b[4:5m${text}\x1b[0m`,
+  smallCaps: (text) => `\x1b[58;5;2m${text}\x1b[0m`,
+  condensed: (text) => `\x1b[57;5;2m${text}\x1b[0m`,
+  expanded: (text) => `\x1b[57;5;3m${text}\x1b[0m`,
+  raised: (text) => `\x1b[73m${text}\x1b[0m`,
+  depressed: (text) => `\x1b[74m${text}\x1b[0m`,
+  sparkle: (text) => `\x1b[6;1;38;5;226m${text}\x1b[0m`,
+  rainbow: (text) => {
+    const colors = [31, 33, 32, 36, 34, 35];
+    return (
+      text
+        .split("")
+        .map((char, i) => `\x1b[${colors[i % colors.length]}m${char}`)
+        .join("") + "\x1b[0m"
+    );
+  },
+  gradient: (text) => {
+    const colors = [196, 202, 208, 214, 220, 226];
+    return (
+      text
+        .split("")
+        .map(
+          (char, i) =>
+            `\x1b[38;5;${
+              colors[Math.floor((i / text.length) * colors.length)]
+            }m${char}`
+        )
+        .join("") + "\x1b[0m"
+    );
+  },
+  glitch: (text) => {
+    const glitchChars = "!@#$%^&*()_+-={}[]|;:,.<>?";
+    return text
+      .split("")
+      .map((char) =>
+        Math.random() < 0.1
+          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+          : char
+      )
+      .join("");
+  },
 };
 
 module.exports = { ...stylesFunctions };

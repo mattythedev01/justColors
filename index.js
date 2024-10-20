@@ -14,6 +14,7 @@ const colorModules = [
   "./colors/otherColors",
   "./colors/emojiDecor",
   "./colors/newEffects",
+  "./colors/culturalColors",
 ];
 
 // Cache for loaded modules
@@ -46,6 +47,10 @@ try {
 
   const stylesFunctions =
     moduleCache.get("./colors/styles") || require("./colors/styles");
+
+  const culturalColors =
+    moduleCache.get("./colors/culturalColors") ||
+    require("./colors/culturalColors");
 
   justColors.frame = (text) => {
     if (typeof text !== "string") {
@@ -129,6 +134,11 @@ try {
       "./colors/emojiDecor",
       "All available emoji decorations from emojiDecor.js:"
     );
+  justColors.showCulturalColors = () =>
+    showColors(
+      "./colors/culturalColors",
+      "All available cultural colors from culturalColors.js:"
+    );
 
   const justColorsProxy = new Proxy(justColors, {
     get(target, prop) {
@@ -147,6 +157,7 @@ try {
       ...metallicColors,
       ...colorCombinations,
       ...stylesFunctions,
+      ...culturalColors,
     },
     {
       get(target, prop) {

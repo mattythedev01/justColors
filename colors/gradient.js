@@ -44,6 +44,58 @@ const gradients = {
       })
       .join("");
   },
+  rainbowGradient: (text) => {
+    const chars = text.split("");
+    return chars
+      .map((char, i) => {
+        const hue = Math.floor((i / chars.length) * 360);
+        return `\x1b[38;2;${Math.floor(
+          255 * Math.sin((hue * Math.PI) / 180)
+        )};${Math.floor(
+          255 * Math.sin(((hue + 120) * Math.PI) / 180)
+        )};${Math.floor(
+          255 * Math.sin(((hue + 240) * Math.PI) / 180)
+        )}m${char}\x1b[0m`;
+      })
+      .join("");
+  },
+  fireGradient: (text) => {
+    const chars = text.split("");
+    return chars
+      .map((char, i) => {
+        const hue = Math.floor((i / chars.length) * 60);
+        return `\x1b[38;2;${255};${Math.floor(
+          255 * (1 - hue / 60)
+        )};${Math.floor((255 * (1 - hue / 60)) / 2)}m${char}\x1b[0m`;
+      })
+      .join("");
+  },
+  iceGradient: (text) => {
+    const chars = text.split("");
+    return chars
+      .map((char, i) => {
+        const hue = Math.floor((i / chars.length) * 60);
+        return `\x1b[38;2;${Math.floor(200 + 55 * (hue / 60))};${Math.floor(
+          200 + 55 * (hue / 60)
+        )};${255}m${char}\x1b[0m`;
+      })
+      .join("");
+  },
+  neonGradient: (text) => {
+    const chars = text.split("");
+    return chars
+      .map((char, i) => {
+        const hue = Math.floor((i / chars.length) * 360);
+        return `\x1b[38;2;${Math.floor(
+          127 + 128 * Math.sin((hue * Math.PI) / 180)
+        )};${Math.floor(
+          127 + 128 * Math.sin(((hue + 120) * Math.PI) / 180)
+        )};${Math.floor(
+          127 + 128 * Math.sin(((hue + 240) * Math.PI) / 180)
+        )}m${char}\x1b[0m`;
+      })
+      .join("");
+  },
 };
 
 module.exports = gradients;

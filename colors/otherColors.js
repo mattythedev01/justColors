@@ -92,6 +92,17 @@ const colorCombinations = {
     colors.red(
       colors.bgYellow(colors.blue(colors.green(colors.magenta(text))))
     ),
+  sunsetTheme: (text) => colors.red(colors.bgYellow(text)),
+  tropicalTheme: (text) => colors.green(colors.bgCyan(colors.yellow(text))),
+  arcticTheme: (text) => colors.white(colors.bgBlue(text)),
+  lavenderFieldTheme: (text) => colors.magenta(colors.bgWhite(text)),
+  autumnForestTheme: (text) => colors.yellow(colors.bgGreen(colors.red(text))),
+  beachTheme: (text) => colors.blue(colors.bgYellow(colors.cyan(text))),
+  fireworksTheme: (text) =>
+    colors.red(colors.bgBlack(colors.yellow(colors.blue(text)))),
+  candyTheme: (text) => colors.magenta(colors.bgWhite(colors.cyan(text))),
+  neonCityTheme: (text) => colors.cyan(colors.bgMagenta(colors.yellow(text))),
+  vintageTheme: (text) => colors.yellow(colors.bgBlack(colors.red(text))),
 };
 
 module.exports = {

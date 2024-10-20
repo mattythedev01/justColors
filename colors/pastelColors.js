@@ -57,6 +57,25 @@ const pastelColors = {
   pastelBisque: (text) => colors.yellow(colors.red(colors.dim(text))),
   pastelDenim: (text) => colors.blue(colors.gray(colors.dim(text))),
   pastelTaupe: (text) => colors.gray(colors.yellow(colors.dim(text))),
+  pastelRosewood: (text) => colors.red(colors.magenta(colors.dim(text))),
+  pastelWisteria: (text) =>
+    colors.magenta(colors.blue(colors.white(colors.dim(text)))),
+  pastelPistachio: (text) =>
+    colors.green(colors.yellow(colors.white(colors.dim(text)))),
+  pastelCornflower: (text) =>
+    colors.blue(colors.cyan(colors.white(colors.dim(text)))),
+  pastelMacaroon: (text) =>
+    colors.yellow(colors.magenta(colors.white(colors.dim(text)))),
+  pastelSeashell: (text) =>
+    colors.white(colors.yellow(colors.red(colors.dim(text)))),
+  pastelChamomile: (text) =>
+    colors.yellow(colors.green(colors.white(colors.dim(text)))),
+  pastelPumpkin: (text) =>
+    colors.yellow(colors.red(colors.magenta(colors.dim(text)))),
+  pastelFern: (text) =>
+    colors.green(colors.yellow(colors.gray(colors.dim(text)))),
+  pastelLilac: (text) =>
+    colors.magenta(colors.blue(colors.white(colors.dim(text)))),
 };
 
 module.exports = pastelColors;

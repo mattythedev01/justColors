@@ -108,6 +108,23 @@ const colorFunctions = {
   bgCyan: (text) => colors.bgCyan(text),
   bgWhite: (text) => colors.bgWhite(text),
   bgBlack: (text) => colors.bgBlack(text),
+  bgGray: (text) => `\x1b[48;2;128;128;128m${text}\x1b[0m`,
+  bgOrange: (text) => `\x1b[48;2;255;165;0m${text}\x1b[0m`,
+  bgPurple: (text) => `\x1b[48;2;128;0;128m${text}\x1b[0m`,
+  bgPink: (text) => `\x1b[48;2;255;192;203m${text}\x1b[0m`,
+  bgBrown: (text) => `\x1b[48;2;165;42;42m${text}\x1b[0m`,
+  bgTeal: (text) => `\x1b[48;2;0;128;128m${text}\x1b[0m`,
+  bgNavy: (text) => `\x1b[48;2;0;0;128m${text}\x1b[0m`,
+  bgMaroon: (text) => `\x1b[48;2;128;0;0m${text}\x1b[0m`,
+  bgOlive: (text) => `\x1b[48;2;128;128;0m${text}\x1b[0m`,
+  bgTurquoise: (text) => `\x1b[48;2;64;224;208m${text}\x1b[0m`,
+  bgLavender: (text) => `\x1b[48;2;230;230;250m${text}\x1b[0m`,
+  bgIndigo: (text) => `\x1b[48;2;75;0;130m${text}\x1b[0m`,
+  bgGold: (text) => `\x1b[48;2;255;215;0m${text}\x1b[0m`,
+  bgSilver: (text) => `\x1b[48;2;192;192;192m${text}\x1b[0m`,
+  bgEmerald: (text) => `\x1b[48;2;80;200;120m${text}\x1b[0m`,
+  bgRuby: (text) => `\x1b[48;2;224;17;95m${text}\x1b[0m`,
+  bgSapphire: (text) => `\x1b[48;2;15;82;186m${text}\x1b[0m`,
 
   // Bright background colors
   bgBrightRed: (text) => colors.bgBrightRed(text),
@@ -127,6 +144,14 @@ const colorFunctions = {
   navy: (text) => colors.blue(colors.dim(text)),
   maroon: (text) => colors.red(colors.dim(text)),
   olive: (text) => colors.green(colors.yellow(colors.dim(text))),
+  turquoise: (text) => colors.cyan(colors.green(text)),
+  lavender: (text) => colors.magenta(colors.blue(colors.white(text))),
+  coral: (text) => colors.red(colors.yellow(text)),
+  indigo: (text) => colors.blue(colors.magenta(colors.dim(text))),
+  crimson: (text) => colors.red(colors.magenta(text)),
+  chartreuse: (text) => colors.green(colors.yellow(text)),
+  periwinkle: (text) => colors.blue(colors.magenta(colors.white(text))),
+  burgundy: (text) => colors.red(colors.magenta(colors.dim(text))),
 
   // Additional background colors
   bgOrange: (text) => colors.bgYellow(colors.red(text)),
@@ -137,6 +162,14 @@ const colorFunctions = {
   bgNavy: (text) => colors.bgBlue(colors.dim(text)),
   bgMaroon: (text) => colors.bgRed(colors.dim(text)),
   bgOlive: (text) => colors.bgGreen(colors.yellow(colors.dim(text))),
+  bgTurquoise: (text) => colors.bgCyan(colors.green(text)),
+  bgLavender: (text) => colors.bgMagenta(colors.blue(colors.white(text))),
+  bgCoral: (text) => colors.bgRed(colors.yellow(text)),
+  bgIndigo: (text) => colors.bgBlue(colors.magenta(colors.dim(text))),
+  bgCrimson: (text) => colors.bgRed(colors.magenta(text)),
+  bgChartreuse: (text) => colors.bgGreen(colors.yellow(text)),
+  bgPeriwinkle: (text) => colors.bgBlue(colors.magenta(colors.white(text))),
+  bgBurgundy: (text) => colors.bgRed(colors.magenta(colors.dim(text))),
 };
 
 module.exports = colorFunctions;
